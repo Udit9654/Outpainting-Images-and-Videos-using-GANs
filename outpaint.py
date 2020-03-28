@@ -348,145 +348,145 @@ def train():
                 saved_time = current_time
         clear_output()
 
-#load_model()
+load_model()
 
-#train()
+train()
 
 ##############################################################################################################
-# recursive outpaint
+# Recursive Outpaint
 
-##load_model()
-##
-##def recursive_paint(image, factor=3):
-##    final_image = None
-##    gen_missing = None
-##    for i in range(factor):
-##        demask_image = None
-##        if i == 0:
-##            x, y = get_masked_images([image])
-##            gen_missing = GEN.predict(x)
-##            final_image = get_demask_images(x, gen_missing)[0]
-##        else:
-##            gen_missing = GEN.predict(gen_missing)
-##            final_image = get_demask_images([final_image], gen_missing)[0]
-##    return final_image
-##
-##images = data.get_data(1)
-###i = cv2.imread("a.jpg")
-###cv2.imshow("original",i)
-###i = cv2.resize(image, (256,256))
-###ig = np.expand_dims(i, axis=0)
-###print(ig.shape)
-##for i, image in enumerate(images):
+load_model()
 
-##    image = image / 127.5 - 1
-##    image = recursive_paint(image)
-##    image = (image + 1) * 127.5
-##    image = image.astype(np.uint8)
-##    path = 'recursive/'+str(i)+'.jpg'
-##    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-##    IPython.display.display(PIL.Image.fromarray(image))
-##    cv2.imshow("1",image)
+def recursive_paint(image, factor=3):
+    final_image = None
+    gen_missing = None
+    for i in range(factor):
+        demask_image = None
+        if i == 0:
+            x, y = get_masked_images([image])
+            gen_missing = GEN.predict(x)
+            final_image = get_demask_images(x, gen_missing)[0]
+        else:
+            gen_missing = GEN.predict(gen_missing)
+            final_image = get_demask_images([final_image], gen_missing)[0]
+    return final_image
+
+images = data.get_data(1)
+
+for i, image in enumerate(images):
+    image = image / 127.5 - 1
+    image = recursive_paint(image)
+    image = (image + 1) * 127.5
+    image = image.astype(np.uint8)
+    path = 'recursive/'+str(i)+'.jpg'
+    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    IPython.display.display(PIL.Image.fromarray(image))
+    cv2.imshow("1",image)
 
 #################################################################################################################
 
-# test from url
+# Test from URL
 
-##load_model()
-##url = 'https://upload.wikimedia.org/wikipedia/commons/3/33/A_beach_in_Maldives.jpg'
-##
-##file_name = os.path.basename(url)
-##import urllib.request
-##_ = urllib.request.urlretrieve(url, file_name)
-##print("Downloaded image")
-##
-##image = cv2.imread(filename)
-##image = cv2.resize(image, (256,256))
-##cropped_image = image[:, 65:193]
-##input_image = cropped_image / 127.5 - 1
-##input_image = np.expand_dims(input_image, axis=0)
-##predicted_image = GEN.predict(input_image)
-##predicted_image = get_demask_images(input_image, predicted_image)[0]
-##predicted_image = (predicted_image + 1) * 127.5
-##predicted_image = predicted_image.astype(np.uint8)
-##image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-##predicted_image = cv2.cvtColor(predicted_image, cv2.COLOR_BGR2RGB)    
-##print('original image')
-##IPython.display.display(PIL.Image.fromarray(image))
-##cv2.imshow("original image",image)
-##print('predicted image')
-##IPython.display.display(PIL.Image.fromarray(predicted_image))
-##cv2.imshow("predicted image",predicted_image)
-##os.remove(file_name)
+load_model()
+url = 'https://upload.wikimedia.org/wikipedia/commons/3/33/A_beach_in_Maldives.jpg'
+
+file_name = os.path.basename(url)
+import urllib.request
+_ = urllib.request.urlretrieve(url, file_name)
+print("Downloaded image")
+
+image = cv2.imread(filename)
+image = cv2.resize(image, (256,256))
+cropped_image = image[:, 65:193]
+input_image = cropped_image / 127.5 - 1
+input_image = np.expand_dims(input_image, axis=0)
+predicted_image = GEN.predict(input_image)
+predicted_image = get_demask_images(input_image, predicted_image)[0]
+predicted_image = (predicted_image + 1) * 127.5
+predicted_image = predicted_image.astype(np.uint8)
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+predicted_image = cv2.cvtColor(predicted_image, cv2.COLOR_BGR2RGB)    
+print('original image')
+IPython.display.display(PIL.Image.fromarray(image))
+cv2.imshow("original image",image)
+print('predicted image')
+IPython.display.display(PIL.Image.fromarray(predicted_image))
+cv2.imshow("predicted image",predicted_image)
+#os.remove(file_name)
 
 ##########################################################################################################        
 
 #Video Outpainting
 
-##load_model()
+load_model()
 
-##import cv2
-##import numpy as np
-##import os
-##from os.path import isfile, join
-##import sys
-##import shutil
+import cv2
+import numpy as np
+import os
+from os.path import isfile, join
+import sys
+import shutil
+check = os.path.isdir("genvid")
+if not check:
+    os.mkdir("genvid")
+path = "./genvid"
+cap = cv2.VideoCapture("D:\\Image Outpaining\\beach video.mp4")
+i = 0
+while(cap.isOpened()):
+    ret, frame = cap.read()
+    if ret == False:
+        break
+    cv2.imwrite(os.path.join(path,'frame'+str(i)+'.jpg'),frame)
+    i += 1
+cap.release()
+cv2.destroyAllWindows()
 
-##path = "./genvid"
-##cap = cv2.VideoCapture("D:\\Image Outpaining\\beach video.mp4")
-##i = 0
-##while(cap.isOpened()):
-##    ret, frame = cap.read()
-##    if ret == False:
-##        break
-##    cv2.imwrite(os.path.join(path,'frame'+str(i)+'.jpg'),frame)
-##    i += 1
-##cap.release()
-##cv2.destroyAllWindows()
+pathin = "./genvid"
+check = os.path.isdir("generated")
+if not check:
+    os.mkdir("generated")
+files = [f for f in os.listdir(pathin) if isfile(join(pathin, f))]
+for im in range(0,len(files)):
+    path = "D:/Image Outpaining/genvid/frame"+str(im)+".jpg"
+    path1 = "./generated/"
+    print(path)
+    image = cv2.imread(path)
+    image = cv2.resize(image, (256,256))
+    cropped_image = image[:, 65:193]
+    input_image = cropped_image / 127.5 - 1
+    input_image = np.expand_dims(input_image, axis=0)
+    predicted_image = GEN.predict(input_image)
+    predicted_image = get_demask_images(input_image, predicted_image)[0]
+    predicted_image = (predicted_image + 1) * 127.5
+    predicted_image = predicted_image.astype(np.uint8)
+    cv2.imwrite(os.path.join(path1,'frame'+str(im)+'.jpg'),predicted_image)
 
-##pathin = "./genvid"
-##files = [f for f in os.listdir(pathin) if isfile(join(pathin, f))]
-##for im in range(0,len(files)):
-##    path = "D:/Image Outpaining/genvid/frame"+str(im)+".jpg"
-##    path1 = "./generated/"
-##    print(path)
-##    image = cv2.imread(path)
-##    image = cv2.resize(image, (256,256))
-##    cropped_image = image[:, 65:193]
-##    input_image = cropped_image / 127.5 - 1
-##    input_image = np.expand_dims(input_image, axis=0)
-##    predicted_image = GEN.predict(input_image)
-##    predicted_image = get_demask_images(input_image, predicted_image)[0]
-##    predicted_image = (predicted_image + 1) * 127.5
-##    predicted_image = predicted_image.astype(np.uint8)
-##    cv2.imwrite(os.path.join(path1,'frame'+str(im)+'.jpg'),predicted_image)
+def convert(pathin,pathout,fps):
+    frame_array = []
+    files = [f for f in os.listdir(pathin) if isfile(join(pathin, f))]
+    
+    for i in range(len(files)):
+        filename = pathin + 'frame'+str(i)+'.jpg'
 
-##def convert(pathin,pathout,fps):
-##    frame_array = []
-##    files = [f for f in os.listdir(pathin) if isfile(join(pathin, f))]
-##    
-##    for i in range(len(files)):
-##        filename = pathin + 'frame'+str(i)+'.jpg'
-##
-##        img = cv2.imread(filename)
-##        height, width, layers = img.shape
-##        size = (width,height)
-##        print(filename)
-##
-##        frame_array.append(img)
-##
-##    out = cv2.VideoWriter(pathout,cv2.VideoWriter_fourcc(*'DIVX'),fps,size)
-##
-##    for i in range(len(frame_array)):
-##        out.write(frame_array[i])
-##    out.release()
-##
-##def main():
-##    pathin = './generated/'
-##    pathout = 'video2.mp4'
-##    fps = 25.0
-##    convert(pathin,pathout,fps)
-##
-##main()
-#shutil.rmtree("genvid")
-#shutil.rmtree("generated")
+        img = cv2.imread(filename)
+        height, width, layers = img.shape
+        size = (width,height)
+        print(filename)
+
+        frame_array.append(img)
+
+    out = cv2.VideoWriter(pathout,cv2.VideoWriter_fourcc(*'DIVX'),fps,size)
+
+    for i in range(len(frame_array)):
+        out.write(frame_array[i])
+    out.release()
+
+def main():
+    pathin = './generated/'
+    pathout = 'video2.mp4'
+    fps = 25.0
+    convert(pathin,pathout,fps)
+
+main()
+shutil.rmtree("genvid")
+shutil.rmtree("generated")
