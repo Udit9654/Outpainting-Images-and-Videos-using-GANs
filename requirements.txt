@@ -20,7 +20,7 @@ imgaug==0.4.0
 tensorflow==1.5.0
 
 tensorflow-tensorboard==1.5.1
-tensorflow-gpu==1.10.0
+tensorflow-gpu==1.15.2
 
 keras==2.2.4
 git+https://www.github.com/keras-team/keras-contrib.git
