@@ -430,7 +430,7 @@ check = os.path.isdir("genvid")
 if not check:
     os.mkdir("genvid")
 path = "./genvid"
-cap = cv2.VideoCapture("D:\\Image Outpaining\\beach video.mp4")
+cap = cv2.VideoCapture("sample/Original Video.mp4")
 i = 0
 while(cap.isOpened()):
     ret, frame = cap.read()
@@ -447,9 +447,9 @@ if not check:
     os.mkdir("generated")
 files = [f for f in os.listdir(pathin) if isfile(join(pathin, f))]
 for im in range(0,len(files)):
-    path = "D:/Image Outpaining/genvid/frame"+str(im)+".jpg"
+    path = "genvid/frame"+str(im)+".jpg"
     path1 = "./generated/"
-    print(path)
+ 
     image = cv2.imread(path)
     image = cv2.resize(image, (256,256))
     cropped_image = image[:, 65:193]
