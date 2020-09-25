@@ -1,4 +1,4 @@
-# Keras implementation of Image OutPainting
+# Keras implementation of Image & Video OutPainting
 
 This is an implementation of [Painting Outside the Box: Image Outpainting](https://cs230.stanford.edu/projects_spring_2018/posters/8265861.pdf) paper from Standford University. 
 Some changes have been made to work with 256*256 image:
